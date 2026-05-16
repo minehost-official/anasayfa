@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2=family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #090d16; }
         .glass { background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .glow-green { box-shadow: 0 0 20px rgba(34, 197, 94, 0.15); }
@@ -38,13 +38,36 @@
             <div class="glass p-8 rounded-2xl border border-slate-800/80 space-y-6 glow-green" id="wizard-card">
                 <div class="text-center space-y-2">
                     <h2 class="text-2xl font-bold text-white">Sunucu Yapılandırma Sihirbazı</h2>
-                    <p class="text-slate-400 text-sm">Açmak istediğiniz sunucunun kimlik ve ağ ayarlarını belirleyin.</p>
+                    <p class="text-slate-400 text-sm">Açmak istediğiniz sunucunun altyapı, sürüm ve ağ ayarlarını belirleyin.</p>
                 </div>
 
                 <form onsubmit="handleWizardSubmit(event)" class="space-y-5">
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-slate-300">Sunucu Adı</label>
                         <input type="text" id="server-name-input" required placeholder="Örn: Survival Dünyası" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500 transition-colors">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-slate-300">Sunucu Türü</label>
+                            <select id="server-type-select" onchange="handleTypeChange()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
+                                <option value="vanilla">Vanilla (Sade)</option>
+                                <option value="paper">Paper (Plugin/Eklenti)</option>
+                                <option value="forge">Forge (Modlu)</option>
+                                <option value="fabric">Fabric (Modlu)</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-slate-300">Oyun Sürümü</label>
+                            <select id="server-version-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
+                                <option value="1.20.4">1.20.4</option>
+                                <option value="1.20.1">1.20.1</option>
+                                <option value="1.19.4">1.19.4</option>
+                                <option value="1.18.2">1.18.2</option>
+                                <option value="1.16.5">1.16.5</option>
+                                <option value="1.12.2">1.12.2</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="space-y-2">
@@ -56,7 +79,7 @@
                             </div>
                             <div onclick="setDomainType('premium')" id="domain-type-premium" class="border-2 border-slate-800 bg-slate-900 p-4 rounded-xl cursor-pointer space-y-1 hover:border-slate-700">
                                 <div class="text-sm font-bold text-white flex justify-between"><span>Özel Domain (Premium)</span><span class="text-amber-400 text-xs font-normal">99 TL / Yıl</span></div>
-                                <p class="text-xs text-slate-400">Sıra bekletmez. .com/.net/.org sunar.</p>
+                                <p class="text-xs text-slate-400">Sıra bekletmez. Ngrok tüneline direkt bağlanır.</p>
                             </div>
                         </div>
                     </div>
@@ -85,7 +108,7 @@
                 <div class="text-center space-y-2">
                     <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center text-xl mx-auto"><i class="fas fa-credit-card"></i></div>
                     <h2 class="text-2xl font-bold text-white">Güvenli Alan Adı Tescili</h2>
-                    <p class="text-slate-400 text-sm">Seçtiğiniz özel uzantı adınıza rezerve edilerek sunucunuza atanır.</p>
+                    <p class="text-slate-400 text-sm">Seçtiğiniz özel uzantı adınıza rezerve edilerek lokal tünele atanır.</p>
                 </div>
 
                 <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-2 text-sm">
@@ -110,8 +133,11 @@
         <section id="step-panel" class="hidden space-y-6">
             <div class="glass p-6 rounded-2xl flex flex-wrap justify-between items-center gap-4">
                 <div>
-                    <h2 id="panel-server-title" class="text-xl font-bold text-white">Yükleniyor...</h2>
-                    <p id="panel-server-domain" class="text-sm font-mono text-slate-400">---</p>
+                    <div class="flex items-center space-x-3">
+                        <h2 id="panel-server-title" class="text-xl font-bold text-white">Yükleniyor...</h2>
+                        <span id="panel-server-meta" class="px-2 py-0.5 bg-slate-800 border border-slate-700 text-slate-400 rounded text-xs font-mono">Vanilla - 1.20.4</span>
+                    </div>
+                    <p id="panel-server-domain" class="text-sm font-mono text-slate-400 mt-1">---</p>
                 </div>
                 <div class="flex items-center space-x-3">
                     <span class="text-sm text-slate-400">Mevcut Durum:</span>
@@ -124,10 +150,10 @@
                     <div id="queue-card" class="glass p-6 rounded-2xl border border-slate-800 space-y-5 hidden">
                         <div class="text-center space-y-2">
                             <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-full flex items-center justify-center text-xl mx-auto animate-spin"><i class="fas fa-circle-notch"></i></div>
-                            <h3 class="font-bold text-white">Tahsis Sırasındasınız</h3>
-                            <p class="text-xs text-slate-400">Ücretsiz havuzda boş slot aranıyor...</p>
+                            <h3 class="font-bold text-white">Lokal Port Tüneli Bekleniyor</h3>
+                            <p class="text-xs text-slate-400">Kuyruk doğrulaması yapılıyor, lütfen bekleyin...</p>
                         </div>
-                        <div class="bg-slate-900 p-4 rounded-xl text-center space-y-1"><span class="text-xs text-slate-400 block uppercase tracking-wider">Kalan Kullanıcı Sayısı</span><span id="queue-number" class="text-3xl font-black text-blue-400 font-mono">0</span></div>
+                        <div class="bg-slate-900 p-4 rounded-xl text-center space-y-1"><span class="text-xs text-slate-400 block uppercase tracking-wider">Kalan Sıra</span><span id="queue-number" class="text-3xl font-black text-blue-400 font-mono">0</span></div>
                         <div class="bg-slate-950 p-4 rounded-xl border border-dashed border-slate-700 space-y-3 text-center">
                             <span class="text-[10px] text-slate-500 block uppercase tracking-widest">- SPONSOR İÇERİĞİ -</span>
                             <button onclick="skipQueue()" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2 rounded-lg flex items-center justify-center space-x-1"><i class="fas fa-bolt"></i> <span>Sponsor İçeriği İzle (-3 Sıra)</span></button>
@@ -146,7 +172,7 @@
                         </div>
                         <div class="space-y-4 pt-2">
                             <div class="space-y-1">
-                                <div class="flex justify-between text-xs font-medium"><span class="text-slate-400">RAM Sınırı</span><span id="ram-text" class="text-slate-300 font-mono">0 GB / 4 GB</span></div>
+                                <div class="flex justify-between text-xs font-medium"><span class="text-slate-400">RAM Kullanımı</span><span id="ram-text" class="text-slate-300 font-mono">0 GB / 4 GB</span></div>
                                 <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden"><div id="ram-bar" class="bg-green-500 h-full w-0 transition-all duration-500"></div></div>
                             </div>
                             <div class="space-y-1">
@@ -155,21 +181,44 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- MOD / PLUGIN YÜKLEME MERKEZİ -->
+                    <div id="mod-manager-card" class="glass p-6 rounded-2xl border border-slate-800 space-y-4 hidden">
+                        <h3 id="mod-manager-title" class="font-bold text-white border-b border-slate-800 pb-3"><i class="fas fa-box-open text-slate-400 mr-2"></i>Mod Yönetim Paneli</h3>
+                        <div class="space-y-3">
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-medium text-slate-400 uppercase tracking-wider">Doğrudan URL ile İndir (.jar)</label>
+                                <div class="flex gap-2">
+                                    <input type="url" id="mod-url-input" placeholder="https://example.com/mod.jar" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-green-500">
+                                    <button onclick="installModFromUrl()" class="bg-green-500 hover:bg-green-400 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs"><i class="fas fa-download"></i></button>
+                                </div>
+                            </div>
+                            <div class="border-t border-slate-800/80 pt-3">
+                                <span class="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">Yüklü Dosyalar</span>
+                                <div id="installed-mods-list" class="space-y-1.5 max-h-[120px] overflow-y-auto font-mono text-xs text-slate-400">
+                                    <div class="text-slate-500 italic">Henüz hiçbir ek dosya yüklenmedi.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="lg:col-span-2 grid md:grid-cols-4 gap-6">
-                    <div class="md:col-span-3 glass p-5 rounded-2xl border border-slate-800 flex flex-col h-[400px]">
+                    <div class="md:col-span-3 glass p-5 rounded-2xl border border-slate-800 flex flex-col h-[480px]">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-3">
                             <h3 class="font-bold text-white text-sm flex items-center space-x-2"><i class="text-xs text-green-400 fas fa-terminal"></i><span>Canlı Sunucu Çıktıları</span></h3>
                             <button onclick="clearConsole()" class="text-xs text-slate-500 hover:text-slate-300"><i class="fas fa-trash"></i> Temizle</button>
                         </div>
                         <div id="console-logs" class="flex-grow bg-slate-950 rounded-xl p-4 font-mono text-xs text-slate-300 overflow-y-auto space-y-1.5">
-                            <div class="text-slate-500">[MineHost] Sunucu yönetim hattına bağlanıldı.</div>
+                            <div class="text-slate-500">[MineHost] Gerçek zamanlı API soket hattı aktif. Sunucu başlatılmaya hazır.</div>
                         </div>
                     </div>
                     <div class="md:col-span-1 glass p-4 rounded-2xl border border-slate-800 flex flex-col justify-between items-center text-center">
-                        <span class="text-[9px] text-slate-500 block uppercase tracking-widest">- REKLAM ALANI -</span>
-                        <div class="flex-grow flex items-center justify-center text-xs text-slate-400 italic">"Sıra beklemeden 7/24 aktif sunucu için yükseltin."</div>
+                        <span class="text-[9px] text-slate-500 block uppercase tracking-widest">- ENTEGRASYON -</span>
+                        <div class="text-xs text-slate-400 text-left space-y-2 leading-relaxed bg-slate-950 p-3 rounded-xl border border-slate-800">
+                            <p class="font-bold text-white text-[10px] uppercase text-green-400">Lokal Sunucu Notu:</p>
+                            <p class="text-[11px]">Gerçek bağlantı sağlamak için bilgisayarınızda <code class="text-green-400 bg-slate-900 px-1 py-0.5 rounded">25565</code> portunda bir Minecraft sunucusu (Vanilla/Forge/Fabric) açık olmalıdır.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -182,149 +231,6 @@
         </div>
     </footer>
 
-    <script>
-        let currentServer = { name: '', domainType: 'free', domainName: '', isOnline: false, inQueue: false, queuePos: 0 };
-        let consoleInterval = null, statsInterval = null;
-
-        function setDomainType(type) {
-            currentServer.domainType = type;
-            const freeCard = document.getElementById('domain-type-free'), premiumCard = document.getElementById('domain-type-premium');
-            const addon = document.getElementById('domain-addon'), premSelect = document.getElementById('domain-premium-select'), wizardCard = document.getElementById('wizard-card');
-            if(type === 'free') {
-                freeCard.className = "border-2 border-green-500 bg-green-500/5 p-4 rounded-xl cursor-pointer space-y-1";
-                premiumCard.className = "border-2 border-slate-800 bg-slate-900 p-4 rounded-xl cursor-pointer space-y-1 hover:border-slate-700";
-                addon.classList.remove('hidden'); premSelect.classList.add('hidden');
-                wizardCard.className = "glass p-8 rounded-2xl border border-slate-800/80 space-y-6 glow-green";
-            } else {
-                premiumCard.className = "border-2 border-amber-500 bg-amber-500/5 p-4 rounded-xl cursor-pointer space-y-1";
-                freeCard.className = "border-2 border-slate-800 bg-slate-900 p-4 rounded-xl cursor-pointer space-y-1 hover:border-slate-700";
-                addon.classList.add('hidden'); premSelect.classList.remove('hidden');
-                wizardCard.className = "glass p-8 rounded-2xl border border-slate-800/80 space-y-6 glow-amber";
-            }
-        }
-
-        function handleWizardSubmit(e) {
-            e.preventDefault();
-            currentServer.name = document.getElementById('server-name-input').value;
-            const subDomain = document.getElementById('domain-sub-input').value.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
-            if(currentServer.domainType === 'free') {
-                currentServer.domainName = `${subDomain}.free.minehost.me`;
-                initPanelLayout();
-            } else {
-                const ext = document.getElementById('domain-premium-select').value;
-                currentServer.domainName = `${subDomain}${ext}`;
-                document.getElementById('checkout-domain-display').innerText = currentServer.domainName;
-                document.getElementById('step-wizard').classList.add('hidden');
-                document.getElementById('step-checkout').classList.remove('hidden');
-            }
-        }
-
-        function handlePaymentSubmit(e) { e.preventDefault(); initPanelLayout(); }
-
-        function initPanelLayout() {
-            document.getElementById('step-wizard').classList.add('hidden');
-            document.getElementById('step-checkout').classList.add('hidden');
-            document.getElementById('step-panel').classList.remove('hidden');
-            document.getElementById('panel-server-title').innerText = currentServer.name;
-            document.getElementById('panel-server-domain').innerText = currentServer.domainName;
-            currentServer.isOnline = false; updateStatusBadge('offline');
-            document.getElementById('btn-start').className = "bg-green-500 hover:bg-green-400 text-slate-950 font-bold py-3 rounded-xl flex flex-col items-center justify-center space-y-1";
-            document.getElementById('btn-stop').className = "bg-slate-800 text-slate-500 font-bold py-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-not-allowed";
-            logToConsole(`[MineHost] Sunucu dizini '${currentServer.name}' ayarlandı.`);
-        }
-
-        function startServer() {
-            if(currentServer.isOnline || currentServer.inQueue) return;
-            document.getElementById('btn-start').className = "bg-slate-800 text-slate-500 font-bold py-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-not-allowed";
-            if(currentServer.domainType === 'free') {
-                currentServer.inQueue = true; currentServer.queuePos = Math.floor(Math.random() * 4) + 4;
-                document.getElementById('queue-number').innerText = currentServer.queuePos;
-                document.getElementById('queue-card').classList.remove('hidden');
-                logToConsole(`[Kuyruk] Havuz yoğun. Sıraya eklendiniz. Sıranız: ${currentServer.queuePos}`, 'warn');
-                const queueInterval = setInterval(() => {
-                    if(!currentServer.inQueue) { clearInterval(queueInterval); return; }
-                    currentServer.queuePos--;
-                    if(currentServer.queuePos <= 0) {
-                        clearInterval(queueInterval); document.getElementById('queue-card').classList.add('hidden');
-                        currentServer.inQueue = false; triggerActualBoot();
-                    } else {
-                        document.getElementById('queue-number').innerText = currentServer.queuePos;
-                        logToConsole(`[Kuyruk] Sıradaki kullanıcılar işleniyor. Kalan: ${currentServer.queuePos}`);
-                    }
-                }, 2500);
-            } else { triggerActualBoot(); }
-        }
-
-        function skipQueue() {
-            if(!currentServer.inQueue) return;
-            logToConsole(`[Sponsor] Etkileşim algılandı. Öncelik sıranız öne çekiliyor.`, 'success');
-            currentServer.queuePos -= 3;
-            if(currentServer.queuePos <= 0) {
-                currentServer.queuePos = 0; document.getElementById('queue-card').classList.add('hidden');
-                currentServer.inQueue = false; triggerActualBoot();
-            } else { document.getElementById('queue-number').innerText = currentServer.queuePos; }
-        }
-
-        function triggerActualBoot() {
-            updateStatusBadge('loading'); logToConsole(`[Sistem] Sunucu JVM sanal makinesi tetikleniyor...`);
-            setTimeout(() => { logToConsole(`[Sistem] Dosya bütünlüğü onaylandı. EULA doğrulandı.`); }, 1000);
-            setTimeout(() => {
-                currentServer.isOnline = true; updateStatusBadge('online');
-                document.getElementById('btn-stop').className = "bg-red-500 hover:bg-red-400 text-slate-950 font-bold py-3 rounded-xl flex flex-col items-center justify-center space-y-1";
-                logToConsole(`[Sistem] Sunucu aktif konuma geçti! Done (2.5s)!`, 'success'); startLiveMetrics();
-            }, 2500);
-        }
-
-        function stopServer() {
-            if(!currentServer.isOnline) return;
-            updateStatusBadge('loading'); logToConsole(`[Sistem] Kapatma sinyali gönderildi...`, 'warn');
-            clearInterval(statsInterval); clearInterval(consoleInterval); resetMetrics();
-            setTimeout(() => {
-                currentServer.isOnline = false; updateStatusBadge('offline');
-                document.getElementById('btn-start').className = "bg-green-500 hover:bg-green-400 text-slate-950 font-bold py-3 rounded-xl flex flex-col items-center justify-center space-y-1";
-                document.getElementById('btn-stop').className = "bg-slate-800 text-slate-500 font-bold py-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-not-allowed";
-                logToConsole(`[Sistem] JVM prosesi kapatıldı. Sunucu Çevrimdışı.`);
-            }, 1500);
-        }
-
-        function startLiveMetrics() {
-            statsInterval = setInterval(() => {
-                const ramMax = currentServer.domainType === 'free' ? 4 : 8;
-                const ramCurrent = (2.0 + (Math.random() * 0.5)).toFixed(2);
-                document.getElementById('ram-bar').style.width = `${(ramCurrent / ramMax) * 100}%`;
-                document.getElementById('ram-text').innerText = `${ramCurrent} GB / ${ramMax} GB`;
-                const cpuCurrent = Math.floor(20 + (Math.random() * 30));
-                document.getElementById('cpu-bar').style.width = `${cpuCurrent}%`;
-                document.getElementById('cpu-text').innerText = `${cpuCurrent}%`;
-            }, 1000);
-        }
-
-        function resetMetrics() {
-            document.getElementById('ram-bar').style.width = '0%'; document.getElementById('ram-text').innerText = '0 GB / 4 GB';
-            document.getElementById('cpu-bar').style.width = '0%'; document.getElementById('cpu-text').innerText = '0%';
-        }
-
-        function updateStatusBadge(state) {
-            const badge = document.getElementById('status-badge');
-            if(state === 'online') {
-                badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-green-500/10 text-green-400 flex items-center space-x-1.5 border border-green-500/20";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span><span>Çevrimiçi</span>`;
-            } else if(state === 'offline') {
-                badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-slate-400 flex items-center space-x-1.5";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-500"></span><span>Çevrimdışı</span>`;
-            } else if(state === 'loading') {
-                badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 flex items-center space-x-1.5 border border-amber-500/20";
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-spin border-t-transparent"></span><span>Bağlanıyor...</span>`;
-            }
-        }
-
-        function logToConsole(text, type = 'info') {
-            const container = document.getElementById('console-logs'), el = document.createElement('div');
-            el.className = type === 'warn' ? 'text-amber-400' : type === 'success' ? 'text-green-400' : 'text-slate-300';
-            el.innerText = text; container.appendChild(el); container.scrollTop = container.scrollHeight;
-        }
-
-        function clearConsole() { document.getElementById('console-logs').innerHTML = ''; }
-    </script>
+    <script src="sunucu.js"></script>
 </body>
 </html>
