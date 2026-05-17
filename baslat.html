@@ -7,91 +7,45 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2=family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #090d16; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #090d16; color: #e2e8f0; }
         .glass { background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .glow-green { box-shadow: 0 0 20px rgba(34, 197, 94, 0.15); }
         .glow-amber { box-shadow: 0 0 20px rgba(245, 158, 11, 0.15); }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+<body class="min-h-screen flex flex-col">
 
     <nav class="glass sticky top-0 z-50 border-b border-slate-800">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2">
                 <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center text-slate-950 font-bold text-xl">M</div>
                 <span class="text-xl font-bold tracking-wider text-white">MINE<span class="text-green-500">HOST</span></span>
-            </a>
-            <div class="flex items-center space-x-4">
-                <a href="index.html" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white">Ana Sayfa</a>
-                <a href="nasil-calisir.html" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white">Nasıl Bedava?</a>
-                <a href="sss.html" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white">S.S.S</a>
-                <a href="baslat.html" class="bg-green-500 text-slate-950 font-semibold px-4 py-2 rounded-lg text-sm shadow-lg shadow-green-500/10">Sunucu Başlat</a>
             </div>
         </div>
     </nav>
 
     <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-12">
         
-        <!-- 1. SİHİRBAZ ADIMI -->
         <section id="step-wizard" class="max-w-xl mx-auto">
-            <div class="glass p-8 rounded-2xl border border-slate-800/80 space-y-6 glow-green" id="wizard-card">
+            <div class="glass p-8 rounded-2xl border border-slate-800/80 space-y-6 glow-green">
                 <div class="text-center space-y-2">
                     <h2 class="text-2xl font-bold text-white">Sunucu Yapılandırma Sihirbazı</h2>
-                    <p class="text-slate-400 text-sm">Açmak istediğiniz sunucunun altyapı, sürüm ve ağ ayarlarını belirleyin.</p>
+                    <p class="text-slate-400 text-sm">Altyapı ve sürüm ayarlarını belirleyin.</p>
                 </div>
 
                 <form onsubmit="handleWizardSubmit(event)" class="space-y-5">
-                    <div class="space-y-5">
-    <div class="space-y-2">
-        <label class="block text-sm font-medium text-slate-300">Sunucu Adı</label>
-        <input type="text" id="server-name-input" required placeholder="Örn: UmutSMP" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500 transition-colors">
-    </div>
-
-    <div class="grid grid-cols-2 gap-4">
-        <div class="space-y-2">
-            <label class="block text-sm font-medium text-slate-300">Sunucu Türü</label>
-            <select id="server-type-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
-                <option value="vanilla">Vanilla (Sade)</option>
-                <option value="paper">Paper (Plugin)</option>
-                <option value="forge">Forge (Modlu)</option>
-                <option value="fabric">Fabric (Modlu)</option>
-            </select>
-        </div>
-        <div class="space-y-2">
-            <label class="block text-sm font-medium text-slate-300">Oyun Sürümü</label>
-            <select id="server-version-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
-                <optgroup label="Modern">
-                    <option value="1.20.6">1.20.6</option>
-                    <option value="1.20.4">1.20.4</option>
-                    <option value="1.20.1">1.20.1</option>
-                    <option value="1.19.4">1.19.4</option>
-                    <option value="1.18.2">1.18.2</option>
-                </optgroup>
-                <optgroup label="Klasik">
-                    <option value="1.16.5">1.16.5</option>
-                    <option value="1.12.2">1.12.2</option>
-                    <option value="1.8.9">1.8.9</option>
-                    <option value="1.7.10">1.7.10</option>
-                </optgroup>
-                <optgroup label="Nostalji (Alpha/Beta)">
-                    <option value="1.5.2">1.5.2</option>
-                    <option value="1.2.5">1.2.5</option>
-                    <option value="1.0">1.0 (Full Release)</option>
-                    <option value="b1.7.3">Beta 1.7.3</option>
-                    <option value="a1.2.6">Alpha 1.2.6</option>
-                </optgroup>
-            </select>
-        </div>
-    </div>
-    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-300">Sunucu Adı</label>
+                        <input type="text" id="server-name-input" required placeholder="Örn: UmutSMP" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500 transition-colors">
+                    </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-2">
                             <label class="block text-sm font-medium text-slate-300">Sunucu Türü</label>
-                            <select id="server-type-select" onchange="handleTypeChange()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
+                            <select id="server-type-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
                                 <option value="vanilla">Vanilla (Sade)</option>
-                                <option value="paper">Paper (Plugin/Eklenti)</option>
+                                <option value="paper">Paper (Plugin)</option>
                                 <option value="forge">Forge (Modlu)</option>
                                 <option value="fabric">Fabric (Modlu)</option>
                             </select>
@@ -99,40 +53,31 @@
                         <div class="space-y-2">
                             <label class="block text-sm font-medium text-slate-300">Oyun Sürümü</label>
                             <select id="server-version-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
-                                <option value="1.20.4">1.20.4</option>
-                                <option value="1.20.1">1.20.1</option>
-                                <option value="1.19.4">1.19.4</option>
-                                <option value="1.18.2">1.18.2</option>
-                                <option value="1.16.5">1.16.5</option>
-                                <option value="1.12.2">1.12.2</option>
+                                <optgroup label="Modern">
+                                    <option value="1.20.6">1.20.6</option>
+                                    <option value="1.20.4">1.20.4</option>
+                                    <option value="1.20.1">1.20.1</option>
+                                    <option value="1.19.4">1.19.4</option>
+                                </optgroup>
+                                <optgroup label="Klasik">
+                                    <option value="1.16.5">1.16.5</option>
+                                    <option value="1.12.2">1.12.2</option>
+                                    <option value="1.8.9">1.8.9</option>
+                                </optgroup>
+                                <optgroup label="Nostalji">
+                                    <option value="1.5.2">1.5.2</option>
+                                    <option value="1.2.5">1.2.5</option>
+                                    <option value="1.0">1.0</option>
+                                </optgroup>
                             </select>
                         </div>
                     </div>
 
                     <div class="space-y-2">
-                        <label class="block text-sm font-medium text-slate-300">Alan Adı (Domain) Altyapısı</label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div onclick="setDomainType('free')" id="domain-type-free" class="border-2 border-green-500 bg-green-500/5 p-4 rounded-xl cursor-pointer space-y-1">
-                                <div class="text-sm font-bold text-white flex justify-between"><span>Ücretsiz Alt Domain</span><span class="text-green-400 text-xs font-normal">0 TL</span></div>
-                                <p class="text-xs text-slate-400">Sıra sistemi ve reklam barındırır.</p>
-                            </div>
-                            <div onclick="setDomainType('premium')" id="domain-type-premium" class="border-2 border-slate-800 bg-slate-900 p-4 rounded-xl cursor-pointer space-y-1 hover:border-slate-700">
-                                <div class="text-sm font-bold text-white flex justify-between"><span>Özel Domain (Premium)</span><span class="text-amber-400 text-xs font-normal">99 TL / Yıl</span></div>
-                                <p class="text-xs text-slate-400">Sıra bekletmez. Ngrok tüneline direkt bağlanır.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="block text-sm font-medium text-slate-300">İstediğiniz Alan Adı Adresi</label>
+                        <label class="block text-sm font-medium text-slate-300">İstediğiniz Alan Adı</label>
                         <div class="flex">
-                            <input type="text" id="domain-sub-input" required placeholder="ornekdomain" class="flex-grow bg-slate-900 border border-slate-700 rounded-l-xl px-4 py-3 text-white focus:outline-none focus:border-green-500 transition-colors">
-                            <span id="domain-addon" class="bg-slate-800 border border-l-0 border-slate-700 rounded-r-xl px-4 py-3 text-slate-400 text-sm font-mono flex items-center justify-center">.free.minehost.me</span>
-                            <select id="domain-premium-select" class="hidden bg-slate-800 border border-l-0 border-slate-700 rounded-r-xl px-3 py-3 text-white text-sm focus:outline-none">
-                                <option value=".com">.com</option>
-                                <option value=".net">.net</option>
-                                <option value=".org">.org</option>
-                            </select>
+                            <input type="text" id="domain-sub-input" required placeholder="umutsmp" class="flex-grow bg-slate-900 border border-slate-700 rounded-l-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
+                            <span class="bg-slate-800 border border-l-0 border-slate-700 rounded-r-xl px-4 py-3 text-slate-400 text-sm flex items-center">.free.minehost.me</span>
                         </div>
                     </div>
 
@@ -141,134 +86,42 @@
             </div>
         </section>
 
-        <!-- 2. ÖDEME ADIMI -->
-        <section id="step-checkout" class="hidden max-w-md mx-auto">
-            <div class="glass p-8 rounded-2xl border border-slate-800 space-y-6 glow-amber">
-                <div class="text-center space-y-2">
-                    <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center text-xl mx-auto"><i class="fas fa-credit-card"></i></div>
-                    <h2 class="text-2xl font-bold text-white">Güvenli Alan Adı Tescili</h2>
-                    <p class="text-slate-400 text-sm">Seçtiğiniz özel uzantı adınıza rezerve edilerek lokal tünele atanır.</p>
-                </div>
-
-                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-2 text-sm">
-                    <div class="flex justify-between text-slate-400"><span>Atanacak IP/Domain:</span> <span id="checkout-domain-display" class="text-white font-mono font-medium">--</span></div>
-                    <div class="flex justify-between text-slate-400"><span>Paket Türü:</span> <span class="text-amber-400 font-medium">Özel Domain + Anında Aktivasyon</span></div>
-                    <div class="border-t border-slate-800 pt-2 flex justify-between text-base font-bold text-white"><span>Yıllık Bedel:</span> <span class="text-green-400">99,00 TL</span></div>
-                </div>
-
-                <form onsubmit="handlePaymentSubmit(event)" class="space-y-4">
-                    <div class="space-y-1"><label class="text-xs font-semibold text-slate-400 uppercase">Kart Sahibi</label><input type="text" required placeholder="Can Yılmaz" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500"></div>
-                    <div class="space-y-1"><label class="text-xs font-semibold text-slate-400 uppercase">Kart Numarası</label><input type="text" required maxlength="19" placeholder="4355 0000 0000 0000" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm font-mono focus:outline-none focus:border-amber-500"></div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="space-y-1"><label class="text-xs font-semibold text-slate-400 uppercase">AA / YY</label><input type="text" required maxlength="5" placeholder="12/29" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm font-mono focus:outline-none focus:border-amber-500 text-center"></div>
-                        <div class="space-y-1"><label class="text-xs font-semibold text-slate-400 uppercase">CVV</label><input type="password" required maxlength="3" placeholder="***" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-sm font-mono focus:outline-none focus:border-amber-500 text-center"></div>
-                    </div>
-                    <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl transition-all">Ödemeyi Doğrula ve Sunucuyu Kur</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- 3. KONTROL PANELİ ADIMI -->
         <section id="step-panel" class="hidden space-y-6">
-            <div class="glass p-6 rounded-2xl flex flex-wrap justify-between items-center gap-4">
+            <div class="glass p-6 rounded-2xl flex justify-between items-center">
                 <div>
-                    <div class="flex items-center space-x-3">
-                        <h2 id="panel-server-title" class="text-xl font-bold text-white">Yükleniyor...</h2>
-                        <span id="panel-server-meta" class="px-2 py-0.5 bg-slate-800 border border-slate-700 text-slate-400 rounded text-xs font-mono">Vanilla - 1.20.4</span>
-                    </div>
+                    <h2 id="panel-server-title" class="text-xl font-bold text-white">---</h2>
                     <p id="panel-server-domain" class="text-sm font-mono text-slate-400 mt-1">---</p>
                 </div>
-                <div class="flex items-center space-x-3">
-                    <span class="text-sm text-slate-400">Mevcut Durum:</span>
-                    <span id="status-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-slate-400 flex items-center space-x-1.5"><span class="w-2 h-2 rounded-full bg-slate-500"></span><span>Çevrimdışı</span></span>
+                <span id="status-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-slate-400">Çevrimdışı</span>
+            </div>
+
+            <div id="queue-card" class="glass p-6 rounded-2xl border border-slate-800 space-y-5 hidden">
+                <div class="text-center space-y-2">
+                    <h3 class="font-bold text-white">Sıra Bekleniyor</h3>
+                    <div class="bg-slate-900 p-4 rounded-xl">
+                        <span id="queue-number" class="text-3xl font-black text-blue-400 font-mono">0</span>
+                    </div>
+                    <button onclick="skipQueue()" class="text-xs bg-blue-600 px-4 py-2 rounded-lg text-white">Reklam İzle (-3 Sıra)</button>
                 </div>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-1 space-y-6">
-                    <div id="queue-card" class="glass p-6 rounded-2xl border border-slate-800 space-y-5 hidden">
-                        <div class="text-center space-y-2">
-                            <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-full flex items-center justify-center text-xl mx-auto animate-spin"><i class="fas fa-circle-notch"></i></div>
-                            <h3 class="font-bold text-white">Lokal Port Tüneli Bekleniyor</h3>
-                            <p class="text-xs text-slate-400">Kuyruk doğrulaması yapılıyor, lütfen bekleyin...</p>
-                        </div>
-                        <div class="bg-slate-900 p-4 rounded-xl text-center space-y-1"><span class="text-xs text-slate-400 block uppercase tracking-wider">Kalan Sıra</span><span id="queue-number" class="text-3xl font-black text-blue-400 font-mono">0</span></div>
-                        <div class="bg-slate-950 p-4 rounded-xl border border-dashed border-slate-700 space-y-3 text-center">
-                            <span class="text-[10px] text-slate-500 block uppercase tracking-widest">- SPONSOR İÇERİĞİ -</span>
-                            <button onclick="skipQueue()" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2 rounded-lg flex items-center justify-center space-x-1"><i class="fas fa-bolt"></i> <span>Sponsor İçeriği İzle (-3 Sıra)</span></button>
-                        </div>
-                    </div>
-
-                    <div class="glass p-6 rounded-2xl border border-slate-800 space-y-6">
-                        <h3 class="font-bold text-white border-b border-slate-800 pb-3"><i class="fas fa-power-off text-slate-400 mr-2"></i>Konsol Güç Merkezi</h3>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button id="btn-start" onclick="startServer()" class="bg-slate-800 text-slate-500 font-bold py-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-not-allowed">
-                                <i class="fas fa-play text-lg"></i> <span class="text-xs">BAŞLAT</span>
-                            </button>
-                            <button id="btn-stop" onclick="stopServer()" class="bg-slate-800 text-slate-500 font-bold py-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-not-allowed">
-                                <i class="fas fa-stop text-lg"></i> <span class="text-xs">DURDUR</span>
-                            </button>
-                        </div>
-                        <div class="space-y-4 pt-2">
-                            <div class="space-y-1">
-                                <div class="flex justify-between text-xs font-medium"><span class="text-slate-400">RAM Kullanımı</span><span id="ram-text" class="text-slate-300 font-mono">0 GB / 4 GB</span></div>
-                                <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden"><div id="ram-bar" class="bg-green-500 h-full w-0 transition-all duration-500"></div></div>
-                            </div>
-                            <div class="space-y-1">
-                                <div class="flex justify-between text-xs font-medium"><span class="text-slate-400">CPU Çekirdek Yükü</span><span id="cpu-text" class="text-slate-300 font-mono">0%</span></div>
-                                <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden"><div id="cpu-bar" class="bg-green-500 h-full w-0 transition-all duration-500"></div></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- MOD / PLUGIN YÜKLEME MERKEZİ -->
-                    <div id="mod-manager-card" class="glass p-6 rounded-2xl border border-slate-800 space-y-4 hidden">
-                        <h3 id="mod-manager-title" class="font-bold text-white border-b border-slate-800 pb-3"><i class="fas fa-box-open text-slate-400 mr-2"></i>Mod Yönetim Paneli</h3>
-                        <div class="space-y-3">
-                            <div class="space-y-1.5">
-                                <label class="block text-xs font-medium text-slate-400 uppercase tracking-wider">Doğrudan URL ile İndir (.jar)</label>
-                                <div class="flex gap-2">
-                                    <input type="url" id="mod-url-input" placeholder="https://example.com/mod.jar" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-green-500">
-                                    <button onclick="installModFromUrl()" class="bg-green-500 hover:bg-green-400 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs"><i class="fas fa-download"></i></button>
-                                </div>
-                            </div>
-                            <div class="border-t border-slate-800/80 pt-3">
-                                <span class="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">Yüklü Dosyalar</span>
-                                <div id="installed-mods-list" class="space-y-1.5 max-h-[120px] overflow-y-auto font-mono text-xs text-slate-400">
-                                    <div class="text-slate-500 italic">Henüz hiçbir ek dosya yüklenmedi.</div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="glass p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <button id="btn-start" onclick="startServer()" class="w-full bg-green-500 text-slate-950 font-bold py-3 rounded-xl">BAŞLAT</button>
+                    <button id="btn-stop" onclick="stopServer()" class="w-full bg-slate-800 text-slate-500 font-bold py-3 rounded-xl cursor-not-allowed">DURDUR</button>
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs"><span>RAM</span><span id="ram-text">0/4 GB</span></div>
+                        <div class="w-full bg-slate-900 h-2 rounded-full"><div id="ram-bar" class="bg-green-500 h-full w-0"></div></div>
                     </div>
                 </div>
-
-                <div class="lg:col-span-2 grid md:grid-cols-4 gap-6">
-                    <div class="md:col-span-3 glass p-5 rounded-2xl border border-slate-800 flex flex-col h-[480px]">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-3">
-                            <h3 class="font-bold text-white text-sm flex items-center space-x-2"><i class="text-xs text-green-400 fas fa-terminal"></i><span>Canlı Sunucu Çıktıları</span></h3>
-                            <button onclick="clearConsole()" class="text-xs text-slate-500 hover:text-slate-300"><i class="fas fa-trash"></i> Temizle</button>
-                        </div>
-                        <div id="console-logs" class="flex-grow bg-slate-950 rounded-xl p-4 font-mono text-xs text-slate-300 overflow-y-auto space-y-1.5">
-                            <div class="text-slate-500">[MineHost] Gerçek zamanlı API soket hattı aktif. Sunucu başlatılmaya hazır.</div>
-                        </div>
-                    </div>
-                    <div class="md:col-span-1 glass p-4 rounded-2xl border border-slate-800 flex flex-col justify-between items-center text-center">
-                        <span class="text-[9px] text-slate-500 block uppercase tracking-widest">- ENTEGRASYON -</span>
-                        <div class="text-xs text-slate-400 text-left space-y-2 leading-relaxed bg-slate-950 p-3 rounded-xl border border-slate-800">
-                            <p class="font-bold text-white text-[10px] uppercase text-green-400">Lokal Sunucu Notu:</p>
-                            <p class="text-[11px]">Gerçek bağlantı sağlamak için bilgisayarınızda <code class="text-green-400 bg-slate-900 px-1 py-0.5 rounded">25565</code> portunda bir Minecraft sunucusu (Vanilla/Forge/Fabric) açık olmalıdır.</p>
-                        </div>
+                <div class="lg:col-span-2 glass p-5 rounded-2xl border border-slate-800 h-64 overflow-hidden flex flex-col">
+                    <div id="console-logs" class="flex-grow bg-slate-950 rounded-xl p-4 font-mono text-xs text-slate-300 overflow-y-auto">
+                        <div>[MineHost] Sistem hazır.</div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-
-    <footer class="glass border-t border-slate-800/60 mt-12">
-        <div class="max-w-6xl mx-auto px-4 py-6 flex justify-between items-center text-xs text-slate-500">
-            <div>&copy; 2026 MineHost. Tüm hakları saklıdır.</div>
-        </div>
-    </footer>
 
     <script src="sunucu.js"></script>
 </body>
