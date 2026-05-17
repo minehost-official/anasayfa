@@ -11,6 +11,7 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #090d16; color: #e2e8f0; }
         .glass { background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .glow-green { box-shadow: 0 0 20px rgba(34, 197, 94, 0.15); }
+        select optgroup { background: #0f172a; color: #10b981; font-weight: bold; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -30,7 +31,7 @@
             <div class="glass p-8 rounded-2xl border border-slate-800/80 space-y-6 glow-green">
                 <div class="text-center space-y-2">
                     <h2 class="text-2xl font-bold text-white">Sunucu Yapılandırma</h2>
-                    <p class="text-slate-400 text-sm">26.1.2 ve 1.0 aralığındaki tüm sürümler aktif.</p>
+                    <p class="text-slate-400 text-sm">Multiplayer destekli tüm sürümler (26.1.2 - 1.0)</p>
                 </div>
 
                 <form onsubmit="handleWizardSubmit(event)" class="space-y-5">
@@ -52,34 +53,51 @@
                         <div class="space-y-2">
                             <label class="block text-sm font-medium text-slate-300">Oyun Sürümü</label>
                             <select id="server-version-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
-                                <optgroup label="Ultra/Gelecek Sürümler">
-                                    <option value="26.1.2">26.1.2 (Ultra High)</option>
-                                    <option value="25.0.0">25.0.0</option>
-                                    <option value="20.0.0">20.0.0</option>
+                                <optgroup label="Üst Segment (26 Serisi)">
+                                    <option value="26.1.2">26.1.2</option>
+                                    <option value="26.1.1">26.1.1</option>
+                                    <option value="26.1">26.1</option>
                                 </optgroup>
-                                <optgroup label="Modern">
+                                <optgroup label="Modern (1.21 Serisi)">
+                                    <option value="1.21.11">1.21.11</option>
+                                    <option value="1.21.10">1.21.10</option>
+                                    <option value="1.21.9">1.21.9</option>
+                                    <option value="1.21.5">1.21.5</option>
+                                    <option value="1.21.1">1.21.1</option>
+                                </optgroup>
+                                <optgroup label="Popüler Sürümler">
                                     <option value="1.20.6">1.20.6</option>
+                                    <option value="1.20.1">1.20.1</option>
                                     <option value="1.19.4">1.19.4</option>
+                                    <option value="1.18.2">1.18.2</option>
                                     <option value="1.16.5">1.16.5</option>
                                 </optgroup>
-                                <optgroup label="Klasik & İlk Sürümler">
+                                <optgroup label="Klasik (PvP & Modlu)">
+                                    <option value="1.12.2">1.12.2</option>
                                     <option value="1.8.9">1.8.9</option>
+                                    <option value="1.7.10">1.7.10</option>
+                                </optgroup>
+                                <optgroup label="Nostalji (Geniş Aralık)">
                                     <option value="1.5.2">1.5.2</option>
-                                    <option value="1.0">1.0 (Başlangıç)</option>
+                                    <option value="1.2.5">1.2.5</option>
+                                    <option value="1.1">1.1</option>
+                                    <option value="1.0">1.0</option>
                                 </optgroup>
                             </select>
                         </div>
                     </div>
 
                     <div class="space-y-2">
-                        <label class="block text-sm font-medium text-slate-300">İstediğiniz Alan Adı</label>
+                        <label class="block text-sm font-medium text-slate-300">Alan Adı Adresi</label>
                         <div class="flex">
                             <input type="text" id="domain-sub-input" required placeholder="umutsmp" class="flex-grow bg-slate-900 border border-slate-700 rounded-l-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
                             <span class="bg-slate-800 border border-l-0 border-slate-700 rounded-r-xl px-4 py-3 text-slate-400 text-sm flex items-center">.free.minehost.me</span>
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-green-500 hover:bg-green-400 text-slate-950 font-bold py-3.5 rounded-xl">Aşamayı Tamamla</button>
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-400 text-slate-950 font-bold py-3.5 rounded-xl transition-all">
+                        Aşamayı Tamamla <i class="fas fa-chevron-right ml-1"></i>
+                    </button>
                 </form>
             </div>
         </section>
@@ -89,24 +107,19 @@
                 <div>
                     <h2 id="panel-server-title" class="text-xl font-bold text-white">---</h2>
                     <p id="panel-server-domain" class="text-sm font-mono text-slate-400 mt-1">---</p>
-                    <p id="panel-server-version" class="text-xs text-green-400 font-bold mt-1">Sürüm: --</p>
+                    <p id="panel-server-ver" class="text-xs text-green-400 font-bold mt-1">---</p>
                 </div>
                 <span id="status-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-slate-400">Çevrimdışı</span>
             </div>
 
-            <div id="queue-card" class="glass p-6 rounded-2xl border border-slate-800 space-y-5 hidden">
-                <div class="text-center space-y-2">
-                    <h3 class="font-bold text-white">Sıra Bekleniyor</h3>
-                    <div class="bg-slate-900 p-4 rounded-xl">
-                        <span id="queue-number" class="text-3xl font-black text-blue-400 font-mono">0</span>
-                    </div>
-                </div>
-            </div>
-
             <div class="grid lg:grid-cols-3 gap-6">
-                <div class="glass p-6 rounded-2xl border border-slate-800 space-y-4">
+                <div class="glass p-6 rounded-2xl border border-slate-800 space-y-4 text-center">
                     <button id="btn-start" onclick="startServer()" class="w-full bg-green-500 text-slate-950 font-bold py-3 rounded-xl">BAŞLAT</button>
                     <button id="btn-stop" onclick="stopServer()" class="w-full bg-slate-800 text-slate-500 font-bold py-3 rounded-xl cursor-not-allowed">DURDUR</button>
+                    <div class="pt-4 border-t border-slate-800">
+                        <p class="text-[10px] text-slate-500 uppercase tracking-widest">Sunucu Bilgisi</p>
+                        <p id="info-ver" class="text-sm font-bold text-slate-300">Sürüm Bekleniyor</p>
+                    </div>
                 </div>
                 <div class="lg:col-span-2 glass p-5 rounded-2xl border border-slate-800 h-64 flex flex-col">
                     <div id="console-logs" class="flex-grow bg-slate-950 rounded-xl p-4 font-mono text-xs text-slate-300 overflow-y-auto"></div>
