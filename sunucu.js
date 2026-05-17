@@ -1,73 +1,58 @@
-let currentServer = { 
-    name: '', type: 'vanilla', version: '', 
-    domainName: '', isOnline: false 
-};
+// Kullanıcı adını sağ üstte göster
+document.getElementById('user-display').innerText = "@" + localStorage.getItem('minehost_user');
+
+let serverData = { name: '', version: '', domain: '', isRunning: false };
 
 function handleWizardSubmit(e) {
     e.preventDefault();
     
-    // Elementleri tek tek yakala
-    const nameInput = document.getElementById('server-name-input');
-    const typeSelect = document.getElementById('server-type-select');
-    const versionSelect = document.getElementById('server-version-select');
-    const domainInput = document.getElementById('domain-sub-input');
+    serverData.name = document.getElementById('server-name-input').value;
+    serverData.version = document.getElementById('server-version-select').value;
+    const sub = document.getElementById('domain-sub-input').value.trim().toLowerCase();
+    serverData.domain = sub + ".free.minehost.me";
 
-    if(!nameInput || !typeSelect || !versionSelect || !domainInput) return;
-
-    // Veri atamaları
-    currentServer.name = nameInput.value;
-    currentServer.type = typeSelect.value;
-    currentServer.version = versionSelect.value;
-    currentServer.domainName = domainInput.value.trim().toLowerCase().replace(/[^a-z0-9]/g, '') + ".free.minehost.me";
-
-    // Adım değiştirme
     document.getElementById('step-wizard').classList.add('hidden');
     document.getElementById('step-panel').classList.remove('hidden');
+
+    document.getElementById('display-name').innerText = serverData.name;
+    document.getElementById('display-domain').innerText = serverData.domain;
     
-    // Paneli güncelle
-    document.getElementById('panel-server-title').innerText = currentServer.name;
-    document.getElementById('panel-server-domain').innerText = currentServer.domainName;
-    document.getElementById('panel-server-ver').innerText = `Sürüm: ${currentServer.version} (${currentServer.type})`;
-    document.getElementById('info-ver').innerText = `Minecraft ${currentServer.version}`;
-    
-    logToConsole(`[Sistem] Sunucu ${currentServer.version} sürümüne ayarlandı.`);
-    logToConsole(`[Sistem] Multiplayer portları (25565) hazırlandı.`);
+    addLog(`Sunucu ${serverData.version} sürümüne ayarlandı.`);
 }
 
 function startServer() {
-    if(currentServer.isOnline) return;
-
+    if(serverData.isRunning) return;
+    
     const badge = document.getElementById('status-badge');
     badge.innerText = "Yükleniyor...";
-    badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-400";
+    badge.className = "px-4 py-1.5 rounded-full text-xs font-black bg-amber-500/20 text-amber-500";
     
-    logToConsole("[Sistem] Çekirdek dosyaları kontrol ediliyor...");
-    
+    addLog("Java sanal makinesi başlatılıyor...");
+    addLog(`${serverData.version} çekirdek dosyaları okunuyor...`);
+
     setTimeout(() => {
-        currentServer.isOnline = true;
+        serverData.isRunning = true;
         badge.innerText = "Çevrimiçi";
-        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-green-500/20 text-green-400";
+        badge.className = "px-4 py-1.5 rounded-full text-xs font-black bg-green-500/20 text-green-500";
         
-        document.getElementById('btn-start').className = "w-full bg-slate-800 text-slate-500 font-bold py-3 rounded-xl cursor-not-allowed";
-        document.getElementById('btn-stop').className = "w-full bg-red-500 text-white font-bold py-3 rounded-xl";
+        document.getElementById('btn-start').className = "flex-1 bg-slate-800 text-slate-600 font-bold py-3 rounded-xl cursor-not-allowed";
+        document.getElementById('btn-stop').className = "flex-1 bg-red-600 text-white font-bold py-3 rounded-xl hover:bg-red-500";
         
-        logToConsole(`[Sistem] Multiplayer sunucu ${currentServer.version} sürümünde AKTİF.`);
-        logToConsole(`[Tünel] Adresiniz: ${currentServer.domainName}`);
-    }, 2000);
+        addLog(`BAŞARILI! Arkadaşların ${serverData.domain} adresiyle bağlanabilir.`);
+        addLog(`Oyun Sürümü: ${serverData.version}`);
+    }, 2500);
 }
 
 function stopServer() {
-    if(!currentServer.isOnline) return;
-    logToConsole("[Sistem] Kapatılıyor...");
-    setTimeout(() => location.reload(), 800);
+    if(!serverData.isRunning) return;
+    addLog("Sunucu durduruluyor...");
+    setTimeout(() => location.reload(), 1000);
 }
 
-function logToConsole(msg) {
-    const box = document.getElementById('console-logs');
-    if(!box) return;
+function addLog(msg) {
+    const con = document.getElementById('console');
     const div = document.createElement('div');
-    div.className = "mb-1 text-slate-400 border-l border-slate-700 pl-2";
-    div.innerHTML = `<span class="text-green-500 font-bold">></span> ${msg}`;
-    box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
+    div.innerHTML = `<span class="text-slate-500">[${new Date().toLocaleTimeString()}]</span> ${msg}`;
+    con.appendChild(div);
+    con.scrollTop = con.scrollHeight;
 }
