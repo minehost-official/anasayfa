@@ -2,130 +2,103 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MineHost - Sunucu Kontrol Merkezi</title>
+    <title>MineHost - Sunucu Paneli</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // GÜVENLİK KONTROLÜ: Giriş yapılmadıysa index'e at
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #090d16; color: #e2e8f0; }
-        .glass { background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .glow-green { box-shadow: 0 0 20px rgba(34, 197, 94, 0.15); }
-        select optgroup { background: #0f172a; color: #10b981; font-weight: bold; }
+        body { background-color: #090d16; color: #e2e8f0; font-family: sans-serif; }
+        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
-
-    <nav class="glass sticky top-0 z-50 border-b border-slate-800">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center text-slate-950 font-bold text-xl">M</div>
-                <span class="text-xl font-bold tracking-wider text-white">MINE<span class="text-green-500">HOST</span></span>
-            </div>
+<body class="p-4 md:p-12">
+    <nav class="max-w-6xl mx-auto flex justify-between items-center mb-10">
+        <div class="text-xl font-bold">MINE<span class="text-green-500">HOST</span></div>
+        <div class="flex items-center space-x-4">
+            <span id="user-display" class="text-slate-400 text-sm italic"></span>
+            <button onclick="localStorage.clear(); location.reload();" class="text-xs bg-red-500/10 text-red-500 px-3 py-1 rounded border border-red-500/20">Çıkış Yap</button>
         </div>
     </nav>
 
-    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-12">
-        
-        <section id="step-wizard" class="max-w-xl mx-auto">
-            <div class="glass p-8 rounded-2xl border border-slate-800/80 space-y-6 glow-green">
-                <div class="text-center space-y-2">
-                    <h2 class="text-2xl font-bold text-white">Sunucu Yapılandırma</h2>
-                    <p class="text-slate-400 text-sm">Multiplayer destekli tüm sürümler (26.1.2 - 1.0)</p>
+    <main class="max-w-4xl mx-auto">
+        <section id="step-wizard" class="glass p-8 rounded-3xl shadow-2xl">
+            <h2 class="text-2xl font-bold mb-6 text-center">Sunucu Kurulumu</h2>
+            <form onsubmit="handleWizardSubmit(event)" class="space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-sm text-slate-400">Sunucu Adı</label>
+                        <input type="text" id="server-name-input" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:border-green-500">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm text-slate-400">Sunucu Türü</label>
+                        <select id="server-type-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:border-green-500">
+                            <option value="vanilla">Vanilla</option>
+                            <option value="paper">Paper (Plugin Destekli)</option>
+                        </select>
+                    </div>
                 </div>
 
-                <form onsubmit="handleWizardSubmit(event)" class="space-y-5">
-                    <div class="space-y-2">
-                        <label class="block text-sm font-medium text-slate-300">Sunucu Adı</label>
-                        <input type="text" id="server-name-input" required placeholder="Örn: UmutSMP" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
-                    </div>
+                <div class="space-y-2">
+                    <label class="text-sm text-slate-400">Oyun Sürümü (26.1.2 - 1.0)</label>
+                    <select id="server-version-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 outline-none focus:border-green-500">
+                        <optgroup label="Özel Sürümler">
+                            <option value="26.1.2">26.1.2</option>
+                            <option value="26.1.1">26.1.1</option>
+                            <option value="26.1">26.1</option>
+                        </optgroup>
+                        <optgroup label="1.21 Serisi">
+                            <option value="1.21.11">1.21.11</option>
+                            <option value="1.21.10">1.21.10</option>
+                            <option value="1.21.9">1.21.9</option>
+                        </optgroup>
+                        <optgroup label="Eski Sürümler">
+                            <option value="1.5.2">1.5.2</option>
+                            <option value="1.1">1.1</option>
+                            <option value="1.0">1.0</option>
+                        </optgroup>
+                    </select>
+                </div>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="space-y-2">
-                            <label class="block text-sm font-medium text-slate-300">Sunucu Türü</label>
-                            <select id="server-type-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
-                                <option value="vanilla">Vanilla (Sade)</option>
-                                <option value="paper">Paper (Plugin)</option>
-                                <option value="forge">Forge (Modlu)</option>
-                                <option value="fabric">Fabric (Modlu)</option>
-                            </select>
-                        </div>
-                        <div class="space-y-2">
-                            <label class="block text-sm font-medium text-slate-300">Oyun Sürümü</label>
-                            <select id="server-version-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
-                                <optgroup label="Üst Segment (26 Serisi)">
-                                    <option value="26.1.2">26.1.2</option>
-                                    <option value="26.1.1">26.1.1</option>
-                                    <option value="26.1">26.1</option>
-                                </optgroup>
-                                <optgroup label="Modern (1.21 Serisi)">
-                                    <option value="1.21.11">1.21.11</option>
-                                    <option value="1.21.10">1.21.10</option>
-                                    <option value="1.21.9">1.21.9</option>
-                                    <option value="1.21.5">1.21.5</option>
-                                    <option value="1.21.1">1.21.1</option>
-                                </optgroup>
-                                <optgroup label="Popüler Sürümler">
-                                    <option value="1.20.6">1.20.6</option>
-                                    <option value="1.20.1">1.20.1</option>
-                                    <option value="1.19.4">1.19.4</option>
-                                    <option value="1.18.2">1.18.2</option>
-                                    <option value="1.16.5">1.16.5</option>
-                                </optgroup>
-                                <optgroup label="Klasik (PvP & Modlu)">
-                                    <option value="1.12.2">1.12.2</option>
-                                    <option value="1.8.9">1.8.9</option>
-                                    <option value="1.7.10">1.7.10</option>
-                                </optgroup>
-                                <optgroup label="Nostalji (Geniş Aralık)">
-                                    <option value="1.5.2">1.5.2</option>
-                                    <option value="1.2.5">1.2.5</option>
-                                    <option value="1.1">1.1</option>
-                                    <option value="1.0">1.0</option>
-                                </optgroup>
-                            </select>
-                        </div>
+                <div class="space-y-2">
+                    <label class="text-sm text-slate-400">Alan Adı (Arkadaşlarınla Paylaşacağın IP)</label>
+                    <div class="flex">
+                        <input type="text" id="domain-sub-input" required placeholder="umutsmp" class="flex-grow bg-slate-900 border border-slate-700 rounded-l-xl px-4 py-3 outline-none focus:border-green-500">
+                        <span class="bg-slate-800 border border-l-0 border-slate-700 rounded-r-xl px-4 py-3 text-slate-400">.free.minehost.me</span>
                     </div>
+                </div>
 
-                    <div class="space-y-2">
-                        <label class="block text-sm font-medium text-slate-300">Alan Adı Adresi</label>
-                        <div class="flex">
-                            <input type="text" id="domain-sub-input" required placeholder="umutsmp" class="flex-grow bg-slate-900 border border-slate-700 rounded-l-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
-                            <span class="bg-slate-800 border border-l-0 border-slate-700 rounded-r-xl px-4 py-3 text-slate-400 text-sm flex items-center">.free.minehost.me</span>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="w-full bg-green-500 hover:bg-green-400 text-slate-950 font-bold py-3.5 rounded-xl transition-all">
-                        Aşamayı Tamamla <i class="fas fa-chevron-right ml-1"></i>
-                    </button>
-                </form>
-            </div>
+                <button type="submit" class="w-full bg-green-500 hover:bg-green-400 text-slate-950 font-bold py-4 rounded-xl shadow-lg transition-all">
+                    AŞAMAYI TAMAMLA VE PANELİ AÇ
+                </button>
+            </form>
         </section>
 
         <section id="step-panel" class="hidden space-y-6">
-            <div class="glass p-6 rounded-2xl flex justify-between items-center">
+            <div class="glass p-6 rounded-2xl flex justify-between items-center border-l-4 border-green-500">
                 <div>
-                    <h2 id="panel-server-title" class="text-xl font-bold text-white">---</h2>
-                    <p id="panel-server-domain" class="text-sm font-mono text-slate-400 mt-1">---</p>
-                    <p id="panel-server-ver" class="text-xs text-green-400 font-bold mt-1">---</p>
+                    <h2 id="display-name" class="text-xl font-bold">---</h2>
+                    <p id="display-domain" class="text-sm text-slate-400 font-mono">---</p>
                 </div>
-                <span id="status-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-slate-400">Çevrimdışı</span>
+                <div id="status-badge" class="px-4 py-1.5 rounded-full text-xs font-black uppercase bg-slate-800 text-slate-500">Çevrimdışı</div>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-6">
-                <div class="glass p-6 rounded-2xl border border-slate-800 space-y-4 text-center">
-                    <button id="btn-start" onclick="startServer()" class="w-full bg-green-500 text-slate-950 font-bold py-3 rounded-xl">BAŞLAT</button>
-                    <button id="btn-stop" onclick="stopServer()" class="w-full bg-slate-800 text-slate-500 font-bold py-3 rounded-xl cursor-not-allowed">DURDUR</button>
-                    <div class="pt-4 border-t border-slate-800">
-                        <p class="text-[10px] text-slate-500 uppercase tracking-widest">Sunucu Bilgisi</p>
-                        <p id="info-ver" class="text-sm font-bold text-slate-300">Sürüm Bekleniyor</p>
+                <div class="glass p-6 rounded-2xl flex flex-col space-y-4">
+                    <button id="btn-start" onclick="startServer()" class="flex-1 bg-green-500 text-slate-950 font-bold py-3 rounded-xl hover:scale-105 transition-transform">BAŞLAT</button>
+                    <button id="btn-stop" onclick="stopServer()" class="flex-1 bg-slate-800 text-slate-500 font-bold py-3 rounded-xl cursor-not-allowed">DURDUR</button>
+                </div>
+                <div class="lg:col-span-2 glass p-4 rounded-2xl h-64 flex flex-col">
+                    <div id="console" class="flex-grow bg-black/50 rounded-lg p-4 font-mono text-[11px] text-green-400 overflow-y-auto">
+                        > Oturum açıldı: Sistem komut bekliyor...
                     </div>
                 </div>
-                <div class="lg:col-span-2 glass p-5 rounded-2xl border border-slate-800 h-64 flex flex-col">
-                    <div id="console-logs" class="flex-grow bg-slate-950 rounded-xl p-4 font-mono text-xs text-slate-300 overflow-y-auto"></div>
-                </div>
             </div>
-        </section>
+        </main>
     </main>
 
     <script src="sunucu.js"></script>
