@@ -43,9 +43,23 @@
 
                 <form onsubmit="handleWizardSubmit(event)" class="space-y-5">
                     <div class="space-y-2">
-                        <label class="block text-sm font-medium text-slate-300">Sunucu Adı</label>
-                        <input type="text" id="server-name-input" required placeholder="Örn: Survival Dünyası" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500 transition-colors">
-                    </div>
+    <label class="block text-sm font-medium text-slate-300">Oyun Sürümü</label>
+    <select id="server-version-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500">
+        <optgroup label="Modern">
+            <option value="1.20.6">1.20.6 (En Yeni)</option>
+            <option value="1.20.4">1.20.4</option>
+            <option value="1.20.1">1.20.1</option>
+            <option value="1.19.4">1.19.4</option>
+            <option value="1.18.2">1.18.2</option>
+        </optgroup>
+        <optgroup label="Klasik / Stabil">
+            <option value="1.16.5">1.16.5</option>
+            <option value="1.12.2">1.12.2</option>
+            <option value="1.8.9">1.8.9 (PvP)</option>
+            <option value="1.7.10">1.7.10 (Modlu)</option>
+        </optgroup>
+    </select>
+</div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-2">
